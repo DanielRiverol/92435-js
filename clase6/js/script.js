@@ -1,7 +1,7 @@
-// fnuction contructora
+// función constructora
 function Libro(titulo, autor, anio, isbn, disponible) {
-  this.titulo = titulo; //libor1.titulo
-  this.autor = autor; //libro.autor
+  this.titulo = titulo;
+  this.autor = autor;
   this.anio = anio;
   this.isbn = isbn;
   this.disponible = disponible;
@@ -56,19 +56,20 @@ class Biblioteca {
 
   agregarLibro(libro) {
     this.catalogo.push(libro);
-    console.log(`Libro agrago con exito ${libro.titulo}`);
+    console.log(`Libro agregado con éxito ${libro.titulo}`);
   }
 
-//   realizar ver catalogo
-
+  // realizar ver catalogo
 }
 
-const bilioteca1 = new Biblioteca("Biblioteca Nacional");
+const biblioteca = new Biblioteca("Biblioteca Nacional");
 
-// console.log(bilioteca1.nombre);
-// console.log(bilioteca1.getNombre());
+// console.log(biblioteca.nombre);
+// console.log(biblioteca.getNombre());
 
-bilioteca1.agregarLibro(libro)
-bilioteca1.agregarLibro(libro2)
-bilioteca1.agregarLibro(new Libro('frankesntien', "Mary Sheelly", 1834, 123456, true))
-console.log(bilioteca1.catalogo);
+biblioteca.agregarLibro(libro);
+biblioteca.agregarLibro(libro2);
+biblioteca.agregarLibro(
+  new Libro("frankenstein", "mary shelley", 1834, 123456456789, true),
+);
+console.log(biblioteca.catalogo);
