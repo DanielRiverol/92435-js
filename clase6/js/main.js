@@ -53,7 +53,7 @@ const libro2 = {
   // }
   mostrarInfo() {
     // interpolacion
-    // this=obj.propiedad
+    // this.propiedad = obj.propiedad
     return `Titulo: ${this.titulo}, autor: ${this.autor}`;
   },
   prestar() {
