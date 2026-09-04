@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="shortcut icon" href="./img/favicon.ico" type="image/x-icon" />
     <link rel="stylesheet" href="./css/style.css" />
-    <script defer src="./js/main.js"></script>
+    <script defer src="./js/script.js"></script>
     <title>Clase 7 | Comisión 92435</title>
   </head>
   <body>
@@ -14,17 +14,32 @@
       <h1>DOM y Eventos en JS</h1>
       <hr />
       <h2>Catálogo de productos</h2>
+
+      <section class="search-section">
+        <input
+          type="text"
+          id="searchInput"
+          placeholder="Ej: Teclado, Monitor, Silla..." />
+        <div class="search-buttons">
+          <button id="btnFind" class="btn-search">
+            Buscar con FIND (1º coincidencia)
+          </button>
+          <button id="btnFilter" class="btn-search">
+            Buscar con FILTER (Todas)
+          </button>
+          <button id="btnReset" class="btn-reset">Restablecer</button>
+        </div>
+      </section>
       <!-- Contenedor para los productos  -->
       <section id="productos-container" class="productos-grid">
         <!-- Ejemplo de estructura de una card:-->
-          <div class="card">
+        <!-- <div class="card">
             <h3>Nombre del Producto</h3>
             <p class="precio">$XXXX</p>
             <p class="stock-visual">Stock disponible: YY</p>
             <button class="btn-comprar">Comprar</button>
-          </div>
+          </div> -->
       </section>
-
     </main>
   </body>
 </html>

@@ -1,10 +1,16 @@
-//CLASE PRODUCTO
 class Producto {
   constructor(id, nombre, precio, stock) {
     this.id = id;
     this.nombre = nombre;
     this.precio = precio;
     this.stock = stock;
+  }
+  vender() {
+    if (this.stock > 0) {
+      this.stock -= 1;
+      return true; // Compra exitosa
+    }
+    return false; // No hay stock
   }
 }
 
@@ -32,6 +38,12 @@ const productos = [
   new Producto(20, "Silla Gamer AKRacing", 280000, 1),
 ];
 
+const contenedorProductos = document.getElementById("productos-container");
+const inputBusqueda = document.getElementById("searchInput");
+const btnFind = document.getElementById("btnFind");
+const btnFilter = document.getElementById("btnFilter");
+const btnReset = document.getElementById("btnReset");
+
 // Funciones de busqueda
 const buscarConFind = (productos, palabra) => {
   const palabraBuscada = palabra.toLowerCase();
@@ -46,51 +58,36 @@ const buscarConFilter = (productos, palabra) => {
   );
 };
 
-// acceder a los elemmento html a traves del obj document
-// console.log(document.getElementsByTagName('h1'));
-// console.log(document.getElementsByTagName('p')[0]);
-// console.log(document.getElementsByTagName('p')[1]);
-// console.log(document.getElementsByClassName('card')[1]);
-// console.log(document.getElementById("productos-container"));
-
-const titulo = document.getElementsByTagName("h1")[0];
-
-// const nombre=prompt("Ingresa tu nombre")
-// titulo.textContent = `Hola ${nombre}`
-// titulo.className= "card"
-// titulo.style.color="green"
-// titulo.innerText = `Hola tarola`
-// titulo.className= "card"
-// titulo.style.color="green"
-
-// titulo.innerHTML= "<em>Hola Thomas</em>"
-// console.log(titulo.textContent);
-const contenedorProductos = document.getElementById("productos-container");
-const card = document.getElementsByClassName("card")[0];
-const obj = {
-  nombre: "Papas",
-  precio: 2500,
-  stock: 5,
-};
-card.innerHTML = `<h3>${obj.nombre}</h3>
-            <p class="precio">$${obj.precio}</p>
-            <p class="stock-visual">Stock disponible: ${obj.stock}}</p>
+function renderizarProductos(arrayProd) {
+  contenedorProductos.innerHTML = "";
+  arrayProd.forEach((producto) => {
+    const card = document.createElement("div");
+    card.className = "card";
+    card.innerHTML = `<h3>${producto.nombre}</h3>
+            <p class="precio">$${producto.precio}</p>
+            <p class="stock-visual">Stock disponible: ${producto.stock}</p>
             <button class="btn-comprar">Comprar</button>`;
 
-// Eventos
-const button = document.getElementsByClassName("btn-comprar")[0];
-console.log(button);
-// button.onclick = ()=>{
-//   alert("Hola hicicste click")
-// }
+    const btnComprar = card.querySelector(".btn-comprar");
+    btnComprar.addEventListener("click", () => {
+      const compraExitosa = producto.vender();
+      const stockVisual = card.querySelector(".stock-visual");
+      if (compraExitosa) {
+        alert("Compra realizada");
+        stockVisual.textContent = `Stock disponible ${producto.stock}`;
+      } else {
+        alert("stock no disponible");
+      }
+    });
+    contenedorProductos.append(card);
+  });
+}
+renderizarProductos(productos);
 
-// button.addEventListener("click", () => {
-//   console.log(buscarConFind(productos, "auri"));
-// });
 
-// titulo.addEventListener("mouseenter", () => {
-//   titulo.className = "card";
-// });
-// titulo.addEventListener("mouseleave", () => {
-//   titulo.className = "";
-// });
+btnFilter.addEventListener("click",()=>{
+    const productosFiltrados= buscarConFilter(productos,inputBusqueda.value)
+    renderizarProductos(productosFiltrados)
+})
+
+// implementar find y reset
