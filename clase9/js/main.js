@@ -9,7 +9,7 @@ class Producto {
 }
 
 //ARRAY DE PRODUCTOS
-const productos = [
+const baseDeDatos = [
   new Producto(1, "Auriculares Sony", 15000, 10),
   new Producto(2, "Auriculares JBL", 12000, 15),
   new Producto(3, "Teclado Mecánico Redragon", 25000, 5),
@@ -31,6 +31,22 @@ const productos = [
   new Producto(19, "Monitor Asus 144hz 24 pulgadas", 210000, 5),
   new Producto(20, "Silla Gamer AKRacing", 280000, 1),
 ];
+
+let productos = []
+
+const obtenerProductos = () => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      const exito = true;
+      if (exito) {
+        resolve(baseDeDatos);
+      } else {
+        reject(new Error("Error de conexión con la base de datos"));
+      }
+    }, 1500);
+  });
+};
+
 const contenedorProductos = document.getElementById("productos-container");
 const inputBusqueda = document.getElementById("searchInput");
 const btnFind = document.getElementById("btnFind");
@@ -66,8 +82,59 @@ const buscarConFilter = (productos, palabra) => {
   );
 };
 
+function renderizarProductos(arrayDeProductos) {
+  contenedorProductos.innerHTML = "";
+
+  if (arrayDeProductos.length === 0) {
+    contenedorProductos.innerHTML =
+      "<p>No se encontraron productos con esa búsqueda.</p>";
+    return;
+  }
+
+  const fragmento = document.createDocumentFragment();
+
+  arrayDeProductos.forEach((producto) => {
+    const card = document.createElement("div");
+    card.className = "card";
+
+    card.innerHTML = `
+      <h3>${producto.nombre}</h3>
+      <p class="precio">$${producto.precio}</p>
+      <p class="stock-visual">Stock disponible: ${producto.stock}</p>
+      <button class="btn-comprar">Comprar</button>
+    `;
+
+    const btnComprar = card.querySelector(".btn-comprar");
+    const stockVisual = card.querySelector(".stock-visual");
+
+    btnComprar.addEventListener("click", async () => {
+      if (producto.stock <= 0) {
+        mostrarModal("Aviso", "Este producto ya no tiene stock.");
+        return;
+      }
+
+      btnComprar.disabled = true;
+      btnComprar.textContent = "Procesando...";
+    });
+
+    fragmento.appendChild(card);
+  });
+
+  contenedorProductos.appendChild(fragmento);
+}
+// sincronico
+// renderizarProductos(productos)
 
 
+// asincronico
+const iniciarCatalogo= async ()=>{
+  try {
+    productos = await obtenerProductos()
+    renderizarProductos(productos)
+  } catch (error) {
+    contenedorProductos.innerHTML = `<h3 style="color: red;">${error.message}</h3>`;
+  }
+}
 
-
-
+// ejecutar la funcion iniciaCatalogo
+iniciarCatalogo()
